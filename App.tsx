@@ -1,118 +1,106 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
+  TouchableOpacity,
 } from 'react-native';
+import React, {useState} from 'react';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default function App() {
+  const [theme, setTheme] = useState('#ffffff');
+  const [sequare, setSequare] = useState('#ffffff');
+  const [triangle, setTriangle] = useState('#ffffff');
+  const [circleOne, setCircleOne] = useState('#ffffff');
+  const [circleTwo, setCircleTwo] = useState('#ffffff');
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const generateColor = () => {
+    const hexRange = '0123456789ABCDEF';
+    const getRandomColor = () => {
+      let color = '#';
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+      for (let i = 0; i < 6; i++) {
+        color += hexRange[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    };
+    setTheme(getRandomColor());
+    setSequare(getRandomColor());
+    setTriangle(getRandomColor());
+    setCircleOne(getRandomColor());
+    setCircleTwo(getRandomColor());
   };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <>
+      <StatusBar backgroundColor={theme} />
+      <View style={[styles.container, {backgroundColor: theme}]}>
+        <View style={styles.shapeContainer}>
+          <View style={[styles.square, {backgroundColor: sequare}]}></View>
+          <View style={[styles.triangle, {backgroundColor: triangle}]}></View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+        <TouchableOpacity onPress={generateColor}>
+          <View style={styles.actionButton}>
+            <Text style={styles.actionText}>Press me</Text>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.shapeContainer}>
+          <View style={[styles.circle, {backgroundColor: circleOne}]}></View>
+          <View style={[styles.circle, {backgroundColor: circleTwo}]}></View>
+        </View>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
+  actionButton: {
+    borderRadius: 12,
+    backgroundColor: '#6A1B4D',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  actionText: {
     fontSize: 24,
-    fontWeight: '600',
+    textTransform: 'uppercase',
+    color: '#FFFFFF',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  shapeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    gap: 20,
   },
-  highlight: {
-    fontWeight: '700',
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderTopWidth: 0,
+    borderRightWidth: 45,
+    borderBottomWidth: 90,
+    borderLeftWidth: 45,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderLeftColor: 'transparent',
+  },
+  square: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderColor: 'yellow',
+  },
+  circle: {
+    width: 100,
+    height: 100,
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: 'yellow',
   },
 });
-
-export default App;
